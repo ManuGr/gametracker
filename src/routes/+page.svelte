@@ -14,8 +14,8 @@
 
 {#if showModal}
     <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div class="bg-[#36454f} rounded-lg shadow-lg p-6 min-w-[350px] relative">
-            <button class="absolute top-2 right-2 p-1 hover:bg-white/20" on:click={() => showModal = false}>
+        <div class="bg-[#36454f} rounded-lg shadow-lg p-6 min-w-[350px] relative max-h-[50vh] overflow-y-auto">
+            <button class="absolute top-2 right-2 px-2 hover:bg-white/20 mt-2 rounded-md font-black" on:click={() => showModal = false}>
                 x
             </button>
             <h2 class="text-lg font-bold mb-4">Search and Add game</h2>
