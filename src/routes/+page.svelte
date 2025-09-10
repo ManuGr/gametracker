@@ -4,8 +4,6 @@
     import { games } from "$lib/stores/games";
 
     let showModal = false;
-
-    console.log($games[0].image)
 </script>
 
 <div class="max-w-screen-xl mx-auto border-b-2 border-gray-600 mx-auto p-1 mb-4">
@@ -35,7 +33,7 @@
 
 {#if showModal}
     <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div class="bg-[#36454f] rounded-lg shadow-lg p-6 min-w-[350px] relative max-h-[50vh] max-w-[75vw] overflow-y-auto">
+        <div class="bg-[#36454f] rounded-lg shadow-lg p-6 min-w-[350px] min-h-[200px] relative max-h-[50vh] max-w-[75vw] overflow-y-auto">
             <button class="absolute top-2 right-2 px-2 hover:bg-white/20 mt-2 rounded-md font-black" on:click={() => showModal = false}>
                 x
             </button>
