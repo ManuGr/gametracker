@@ -47,7 +47,7 @@
     {#each results as game}
         <li>
             <button on:click={() => addGame(game)} class="flex flex-col border rounded-lg shadow-sm md:flex-row md:max-w-xl border-gray-700 bg-white/10 hover:bg-white/20 hover:scale-105 transition-transform duration-200">
-                <img class="object-cover w-full h-36 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={game.image.thumb_url} alt={`${game.name} cover`}>
+                <img class="object-cover w-full h-36 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={game.image.medium_url} alt={`${game.name} cover`}>
                 <div class="flex flex-col justify-between p-4 leading-normal">
                     <h3 class="mb-2 text-lg md:text-2xl font-bold tracking-tight">{game.name}</h3>
                     <p class="mb-3 font-normal text-xs">Release Date: <span>{game.original_release_date}</span></p>
