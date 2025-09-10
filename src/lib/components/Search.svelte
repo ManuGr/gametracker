@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { games } from "$lib/stores/games";
+
     let gameName = '';
-    let results = [];
+    let results: any[] = [];
 
     async function handleSearch() {
         if (!gameName) {
@@ -10,6 +12,15 @@
 
         const res = await fetch(`api/search?q=${encodeURIComponent(gameName)}`);
         results = await res.json();
+    }
+
+    function addGame(game: any) {
+        games.update(current => {
+            if (!current.find(g => g.id === game.id)) {
+                return [...current, game];
+            }
+            return current;
+        });
     }
 </script>
 
@@ -32,21 +43,21 @@
     </div>
 </form>
 
-<ul class="grid grid-cols-2 md:flex md:flex-col gap-2">
+<ul class="flex flex-col md:grid md:grid-cols-2 gap-4">
     {#each results as game}
         <li>
-            <div class="flex flex-col items-center border rounded-lg shadow-sm md:flex-row md:max-w-xl border-gray-700 bg-white/10 hover:bg-white/20 hover:scale-105 transition-transform duration-200">
-                <img class="object-cover w-full rounged-t-lg h-48 md:h-auto md:w-36 md:rounded-none md:rounded-s-lg" src={game.image.thumb_url} alt={`${game.name} cover`}>
+            <button on:click={() => addGame(game)} class="flex flex-col border rounded-lg shadow-sm md:flex-row md:max-w-xl border-gray-700 bg-white/10 hover:bg-white/20 hover:scale-105 transition-transform duration-200">
+                <img class="object-cover w-full h-36 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={game.image.thumb_url} alt={`${game.name} cover`}>
                 <div class="flex flex-col justify-between p-4 leading-normal">
-                    <h3 class="mb-2 text-2xl font-bold tracking-tight">{game.name}</h3>
-                    <p class="mb-3 font-normal text-sm">Release Date: <span>{game.original_release_date}</span></p>
-                    {#each game.platforms as p}
-                        <ul class="flex">
-                            <li class="font-normal text-xs">{p.name}</li>
-                        </ul>
-                    {/each}
+                    <h3 class="mb-2 text-lg md:text-2xl font-bold tracking-tight">{game.name}</h3>
+                    <p class="mb-3 font-normal text-xs">Release Date: <span>{game.original_release_date}</span></p>
+                    <ul class="flex flex-wrap gap-2">
+                        {#each game.platforms as p}
+                                <li class="font-normal text-xs px-2 py-1 bg-[#2d7676]/50 rounded-lg">{p.name}</li>
+                        {/each}
+                    </ul>
                 </div>
-            </div>
+            </button>
         </li>
     {/each}
 </ul>
