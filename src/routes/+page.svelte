@@ -1,13 +1,13 @@
 <script lang="ts">
     import { List, ListPlus, LayoutGrid } from "@lucide/svelte";
     import { games } from "$lib/stores/games";
+    import { layout } from "$lib/stores/config";
 
     import Search from "$lib/components/Search.svelte";
     import GameProfile from "$lib/components/GameProfile.svelte";
 
     let addGameModal = false;
     let gameInfoModal = false;
-    let listLayout = false;
     let currentGame: any = null;
 
     function handleGameProfileOpen(game: any) {
@@ -22,12 +22,12 @@
         Add game
     </button>
     <div class="flex items-center gap-2">
-        <button on:click={() => listLayout = true} class="p-1 rounded-md hover:bg-white/10"> <List size="18" /> </button>
-        <button on:click={() => listLayout = false} class="p-1 rounded-md hover:bg-white/10"> <LayoutGrid size="18" /> </button>
+        <button on:click={() => layout.set('list')} class="p-1 rounded-md hover:bg-white/10"> <List size="18" /> </button>
+        <button on:click={() => layout.set('grid')} class="p-1 rounded-md hover:bg-white/10"> <LayoutGrid size="18" /> </button>
     </div>
 </div>
 
-{#if listLayout}
+{#if $layout === 'list'}
     <div class="flex flex-col gap-1 max-w-screen-xl mx-auto">
         {#each $games as game}
             <button
