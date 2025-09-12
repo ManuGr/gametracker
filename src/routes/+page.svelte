@@ -22,8 +22,18 @@
         Add game
     </button>
     <div class="flex items-center gap-2">
-        <button on:click={() => layout.set('list')} class="p-1 rounded-md hover:bg-white/10"> <List size="18" /> </button>
-        <button on:click={() => layout.set('grid')} class="p-1 rounded-md hover:bg-white/10"> <LayoutGrid size="18" /> </button>
+        <button on:click={() => layout.set('list')} class="relative p-1 rounded-md hover:bg-white/10 group">
+            <List size="18" />
+            <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20">
+                List Layout
+            </span>
+        </button>
+        <button on:click={() => layout.set('grid')} class="relative p-1 rounded-md hover:bg-white/10 group">
+            <LayoutGrid size="18" />
+            <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20">
+                Grid Layout
+            </span>
+        </button>
     </div>
 </div>
 
