@@ -13,7 +13,7 @@
 
 <Navbar />
 
-<main class="pt-20">
+<main class="pt-25">
 	{@render children?.()}
 </main>
 

@@ -17,7 +17,7 @@
     function addGame(game: any) {
         games.update(current => {
             if (!current.find(g => g.id === game.id)) {
-                return [...current, game];
+                return [...current, {...game, notes: "", status: "owned", rating: 0 }];
             }
             return current;
         });

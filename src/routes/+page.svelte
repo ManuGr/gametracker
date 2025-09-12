@@ -1,10 +1,12 @@
 <script lang="ts">
-    import { List, ListPlus, LayoutGrid } from "@lucide/svelte";
-    import { games } from "$lib/stores/games";
+    import { Download, FileInput, LayoutGrid, List, ListPlus, Upload } from "@lucide/svelte";
+    import { games, downloadGames, uploadGames } from "$lib/stores/games";
     import { layout } from "$lib/stores/config";
 
     import Search from "$lib/components/Search.svelte";
     import GameProfile from "$lib/components/GameProfile.svelte";
+
+    let fileInput: HTMLInputElement;
 
     let addGameModal = false;
     let gameInfoModal = false;
@@ -14,6 +16,17 @@
         gameInfoModal = !gameInfoModal;
         currentGame = game;
     }
+
+    function handleDownload() {
+        downloadGames($games);
+    }
+
+    async function handleUpload(event: Event) {
+        const files = fileInput.files;
+        if (files && files[0]) {
+            await uploadGames(files[0]);
+        }
+    }
 </script>
 
 <div class="max-w-screen-xl mx-auto border-b-2 border-gray-600 mx-auto p-1 mb-4 flex justify-between">
@@ -22,15 +35,35 @@
         Add game
     </button>
     <div class="flex items-center gap-2">
-        <button on:click={() => layout.set('list')} class="relative p-1 rounded-md hover:bg-white/10 group">
+        <button on:click={handleDownload} class="relative p-1 rounded-md hover:bg-white/10 group hover:scale-110 transition-transform duration-200">
+            <Download size="18" />
+            <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                Download Games List
+            </span>
+        </button>
+        <label for="json-upload" class="relative p-1 rounded-md hover:bg-white/10 group hover:scale-110 transition-transform duration-200">
+            <Upload size="18" />
+            <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                Upload Games List
+            </span>
+        </label>
+        <input
+            id="json-upload"
+            type="file"
+            bind:this={fileInput}
+            accept="application/json"
+            on:change={handleUpload}
+            class="hidden"
+        />
+        <button on:click={() => layout.set('list')} class="relative p-1 rounded-md hover:bg-white/10 group hover:scale-110 transition-transform duration-200">
             <List size="18" />
-            <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20">
+            <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                 List Layout
             </span>
         </button>
-        <button on:click={() => layout.set('grid')} class="relative p-1 rounded-md hover:bg-white/10 group">
+        <button on:click={() => layout.set('grid')} class="relative p-1 rounded-md hover:bg-white/10 group hover:scale-110 transition-transform duration-200">
             <LayoutGrid size="18" />
-            <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20">
+            <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                 Grid Layout
             </span>
         </button>
