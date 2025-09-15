@@ -76,13 +76,13 @@
             class="hidden"
         />
         <button on:click={() => layout.set('list')} class="relative p-1 rounded-md hover:bg-white/10 group hover:scale-110 transition-transform duration-200">
-            <List size="18" />
+            <List size="18" color={$layout === 'list' ? '#FFD700' : '#eff0f0'} />
             <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                 List Layout
             </span>
         </button>
         <button on:click={() => layout.set('grid')} class="relative p-1 rounded-md hover:bg-white/10 group hover:scale-110 transition-transform duration-200">
-            <LayoutGrid size="18" />
+            <LayoutGrid size="18" color={$layout === 'grid' ? '#FFD700' : '#eff0f0'} />
             <span class="absolute whitespace-nowrap left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs rounded bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                 Grid Layout
             </span>
@@ -127,6 +127,7 @@
                     <h3 class="mb-2 text-lg md:text-2xl font-bold tracking-tight">{game.name}</h3>
                     <p class="mb-2 font-normal text-xs">Release Date: <span>{game.original_release_date}</span></p>
                     <p class="mb-2 text-xs">{game.deck}</p>
+                    <p class={`font-normal text-sm px-2 py-1 rounded-lg mb-3 ${status.find(s => game.status === s.status)?.color}`}>{game.status}</p>
                     <ul class="flex flex-wrap gap-2">
                         {#each game.platforms as p}
                             <li class="font-normal text-xs px-2 py-1 bg-[#2d7676]/50 rounded-lg">{p.name}</li>
@@ -155,8 +156,7 @@
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div on:click={() => gameInfoModal = false} class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div on:click|stopPropagation class="bg-[#36454f] rounded-lg shadow-lg p-6 min-w-[350px] relative max-h-[50vh] max-w-[75vw] overflow-y-auto">
-            <button class="absolute top-2 right-2 px-2 hover:bg-white/20 mt-2 rounded-md font-black" on:click={() => gameInfoModal = false}>x</button>
+        <div on:click|stopPropagation class="flex flex-col bg-[#36454f] rounded-lg shadow-lg p-6 w-[75vw] relative h-[75vh] max-w-screen-lg">
             <GameProfile game={currentGame} />
         </div>
     </div>
