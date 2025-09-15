@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { Download, FileInput, LayoutGrid, List, ListPlus, Upload } from "@lucide/svelte";
+    import { Download, LayoutGrid, List, ListPlus, Upload } from "@lucide/svelte";
     import { games, downloadGames, uploadGames } from "$lib/stores/games";
     import { layout } from "$lib/stores/config";
+    import { dndzone } from "svelte-dnd-action";
 
     import Search from "$lib/components/Search.svelte";
     import GameProfile from "$lib/components/GameProfile.svelte";
@@ -26,6 +27,10 @@
         if (files && files[0]) {
             await uploadGames(files[0]);
         }
+    }
+
+    function handleDnd({ detail }) {
+        games.set(detail.items);
     }
 </script>
 
@@ -71,23 +76,40 @@
 </div>
 
 {#if $layout === 'list'}
-    <div class="flex flex-col gap-1 max-w-screen-xl mx-auto">
-        {#each $games as game}
+    <div
+        use:dndzone={{ items: $games, flipDurationMs: 200 }}
+        on:consider={handleDnd}
+        on:finalize={handleDnd}
+        class="flex flex-col gap-1 max-w-screen-xl mx-auto"
+    >
+        {#each $games as game (game.id)}
             <button
                 on:click={() => handleGameProfileOpen(game)}
-                class="flex w-full px-2 py-1 items-center gap-2 rounded-lg bg-white/10 hover:bg-white/20 hover:scale-105 transition-transform duration-200"
+                class="flex flex-col items-start gap-2 md:flex-row md:justify-between w-full px-2 py-1 items-center rounded-lg bg-white/10 hover:bg-white/20 hover:scale-105 transition-transform duration-200"
             >
-                <img 
-                    src={game.image.icon_url} alt={`${game.name} cover`}
-                    class="object-cover w-10 h-10"
-                >
-                <h3 class="text-xl font-semibold">{game.name}</h3>
+                <div class="flex gap-2 items-center">
+                    <img 
+                        src={game.image.icon_url} alt={`${game.name} cover`}
+                        class="object-cover w-10 h-10"
+                    >
+                    <h3 class="text-xl font-semibold">{game.name}</h3>
+                </div>
+                <ul class="flex gap-2 items-center flex-wrap">
+                    {#each game.platforms as p}
+                            <li class="font-normal text-xs px-2 py-1 bg-[#2d7676]/50 rounded-lg">{p.name}</li>
+                    {/each}
+                </ul>
             </button>
         {/each}
     </div>
 {:else}
-    <div class="max-w-screen-xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-4 mb-4">
-        {#each $games as game}
+    <div
+        use:dndzone={{ items: $games, flipDurationMs: 200 }}
+        on:consider={handleDnd}
+        on:finalize={handleDnd}
+        class="max-w-screen-xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-4 mb-4"
+    >
+        {#each $games as game (game.id)}
             <button on:click={() => handleGameProfileOpen(game)} class="flex flex-col border rounded-lg shadow-sm md:flex-row md:max-w-xl border-gray-700 bg-white/10 hover:bg-white/20 hover:scale-105 transition-transform duration-200">
                 <img class="object-cover w-full h-36 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={game.image.medium_url} alt={`${game.name} cover`}>
                 <div class="flex flex-col justify-between p-4 leading-normal">
