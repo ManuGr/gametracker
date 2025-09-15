@@ -38,5 +38,5 @@ export async function uploadGames(file: File) {
         return {...gameData, ...userGame};
     }));
 
-    return reconstructed;
+    games.set(reconstructed);
 }
