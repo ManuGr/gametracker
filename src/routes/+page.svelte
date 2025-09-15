@@ -85,7 +85,7 @@
         {#each $games as game (game.id)}
             <button
                 on:click={() => handleGameProfileOpen(game)}
-                class="flex flex-col items-start gap-2 md:flex-row md:justify-between w-full px-2 py-1 items-center rounded-lg bg-white/10 hover:bg-white/20 hover:scale-105 transition-transform duration-200"
+                class="flex flex-col items-start gap-2 md:flex-row md:justify-between md:items-center w-full px-2 py-1 items-center rounded-lg bg-white/10 hover:bg-white/20 hover:scale-105 transition-transform duration-200"
             >
                 <div class="flex gap-2 items-center">
                     <img 
@@ -118,7 +118,7 @@
                     <p class="mb-2 text-xs">{game.deck}</p>
                     <ul class="flex flex-wrap gap-2">
                         {#each game.platforms as p}
-                                <li class="font-normal text-xs px-2 py-1 bg-[#2d7676]/50 rounded-lg">{p.name}</li>
+                            <li class="font-normal text-xs px-2 py-1 bg-[#2d7676]/50 rounded-lg">{p.name}</li>
                         {/each}
                     </ul>
                 </div>
@@ -128,8 +128,10 @@
 {/if}
 
 {#if addGameModal}
-    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div class="bg-[#36454f] rounded-lg shadow-lg p-6 min-w-[350px] min-h-[200px] relative max-h-[50vh] max-w-[75vw] overflow-y-auto">
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div on:click={() => addGameModal = false} class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div on:click|stopPropagation class="bg-[#36454f] rounded-lg shadow-lg p-6 min-w-[350px] min-h-[200px] relative max-h-[50vh] max-w-[75vw] overflow-y-auto">
             <button class="absolute top-2 right-2 px-2 hover:bg-white/20 mt-2 rounded-md font-black" on:click={() => addGameModal = false}>
                 x
             </button>
@@ -139,8 +141,10 @@
 {/if}
 
 {#if gameInfoModal}
-    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div class="bg-[#36454f] rounded-lg shadow-lg p-6 min-w-[350px] relative max-h-[50vh] max-w-[75vw] overflow-y-auto">
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div on:click={() => gameInfoModal = false} class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div on:click|stopPropagation class="bg-[#36454f] rounded-lg shadow-lg p-6 min-w-[350px] relative max-h-[50vh] max-w-[75vw] overflow-y-auto">
             <button class="absolute top-2 right-2 px-2 hover:bg-white/20 mt-2 rounded-md font-black" on:click={() => gameInfoModal = false}>x</button>
             <GameProfile game={currentGame} />
         </div>
