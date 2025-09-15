@@ -13,6 +13,21 @@
     let gameInfoModal = false;
     let currentGame: any = null;
 
+    const status = [
+        {
+            status: "owned",
+            color: "bg-[#2d7676]/25"
+        },
+        {
+            status: "playing",
+            color: "bg-[#2d7676]/60"
+        },
+        {
+            status: "completed",
+            color: "bg-[#2d7676]"
+        }
+    ]
+
     function handleGameProfileOpen(game: any) {
         gameInfoModal = !gameInfoModal;
         currentGame = game;
@@ -94,11 +109,7 @@
                     >
                     <h3 class="text-xl font-semibold">{game.name}</h3>
                 </div>
-                <ul class="flex gap-2 items-center flex-wrap">
-                    {#each game.platforms as p}
-                            <li class="font-normal text-xs px-2 py-1 bg-[#2d7676]/50 rounded-lg">{p.name}</li>
-                    {/each}
-                </ul>
+                <p class={`font-normal text-sm px-2 py-1 rounded-lg ${status.find(s => game.status === s.status)?.color}`}>{game.status}</p>
             </button>
         {/each}
     </div>
